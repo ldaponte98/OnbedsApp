@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DetallesReserva">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    </LinearLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navegador_botton_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:background="@android:color/background_light"
+        app:menu="@menu/bottom_nav_menu"
+        tools:context=".DetallesReserva"></com.google.android.material.bottomnavigation.BottomNavigationView>
+
+    <include
+        layout="@layout/content_detalles_reserva"
+        app:layout_anchor="@+id/linearLayout"
+        app:layout_anchorGravity="center" />
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

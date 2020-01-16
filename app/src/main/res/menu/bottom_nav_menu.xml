@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_detalle"
+        android:icon="@android:drawable/ic_menu_today"
+        android:title="Detalles" />
+
+    <item
+        android:id="@+id/navigation_acompañantes"
+        android:icon="@android:drawable/ic_menu_my_calendar"
+        android:title="Acompañantes" />
+
+
+
+</menu>

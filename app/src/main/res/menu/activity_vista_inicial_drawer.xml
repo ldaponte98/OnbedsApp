@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item android:title="Principal">
+            <menu>
+                <item
+                    android:id="@+id/nav_chat"
+                    android:icon="@android:drawable/stat_notify_chat"
+                    android:title="Chat servicio" />
+
+                <item
+                    android:id="@+id/nav_reserva"
+                    android:icon="@android:drawable/ic_menu_my_calendar"
+                    android:title="Reserva a un click" />
+                <item
+                    android:id="@+id/nav_check_in"
+                    android:icon="@android:drawable/checkbox_on_background"
+                    android:title="Check-In" />
+                <item
+                    android:id="@+id/nav_check_out"
+                    android:icon="@drawable/ic_menu_manage"
+                    android:title="Check-Out" />
+        </menu>
+        </item>
+
+    </group>
+
+    <item android:title="Cuenta">
+        <menu>
+            <item
+                android:id="@+id/nav_salir"
+                android:icon="@android:drawable/ic_lock_power_off"
+                android:title="Salir" />
+
+        </menu>
+    </item>
+
+</menu>

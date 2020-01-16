@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">Onbeds</string>
+    <string name="action_settings">Ajustes</string>
+    <string name="title_activity_vista_inicial">VistaInicial</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_tools">Tools</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_send">Send</string>
+    <string name="title_activity_pre_chekin">PreChekin</string>
+    <string name="tab_info_reserva">Informacion de reserva</string>
+    <string name="tab_acompañantes">Acompañantes</string>
+    <string name="title_activity_detalle_reserva">DetalleReserva</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_activity_factura_detalle">FacturaDetalle</string>
+    <string name="title_activity_detalles_reserva">DetallesReserva</string>
+    <string name="title_activity_prueba">prueba</string>
+
+    <string-array name="array_spinning">
+        <item>Habitacion 1234</item>
+        <item>Habitacion 9872</item>
+    </string-array>
+</resources>

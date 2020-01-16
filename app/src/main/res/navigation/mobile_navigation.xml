@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_detalle">
+
+    <fragment
+        android:id="@+id/navigation_detalle"
+        android:name="com.example.apphotelera.ui.detalles.DetallesFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_detalles" >
+        <action
+            android:id="@+id/action_navigation_detalle_to_navigation_acompañantes"
+            app:destination="@id/navigation_acompañantes" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_acompañantes"
+        android:name="com.example.apphotelera.ui.acompañantes.AcompañantesFragment"
+        android:label="@string/title_dashboard"
+        tools:layout="@layout/fragment_acompañantes" >
+        <action
+            android:id="@+id/action_navigation_acompañantes_to_navigation_checkin"
+            app:destination="@id/navigation_checkin" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_checkin"
+        android:name="com.example.apphotelera.ui.notifications.NotificationsFragment"
+        android:label="@string/title_notifications"
+        tools:layout="@layout/fragment_checkin" />
+</navigation>
