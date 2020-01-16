@@ -84,6 +84,7 @@ public class DetallesReserva extends AppCompatActivity {
                 }
             }
         });
+
         txt_nombre1 = (TextView) findViewById(R.id.txt_detalle_reserva_titular_nombre1);
         txt_nombre2 = (TextView) findViewById(R.id.txt_detalle_reserva_titular_nombre2);
         txt_apellido1 = (TextView) findViewById(R.id.txt_detalle_reserva_titular_apellido1);
