@@ -235,16 +235,15 @@ public class DetallesReserva extends AppCompatActivity {
             for (int i = 1; i<= faltantes; i++){
                 Acompañantes acompañante = new Acompañantes(context);
                 acompañante.setId_habitacion(id_habitacion);
+                acompañante.setPosicion_in_lista(reserva.getLista_acompañantes().size());
                 reserva.getLista_acompañantes().add(acompañante);
             }
         }
         ListarAcompañantes AdaptadorDeListas_ListarAcompañantes;
         ProgressDialog progressDialog;
 
-        AdaptadorDeListas_ListarAcompañantes = new ListarAcompañantes(reserva.FindAcompañantesByHabitacion(id_habitacion), context, activity);
+        AdaptadorDeListas_ListarAcompañantes = new ListarAcompañantes(reserva.FindAcompañantesByHabitacion(id_habitacion), context, activity, id_habitacion, reserva.getId_reserva());
         Recycler_ListarAcompañantes.setAdapter(AdaptadorDeListas_ListarAcompañantes);
-
-
 
     }
     public void PreguntarActualizacionDeReserva(View view){

@@ -36,8 +36,7 @@ public class ListarAcompañantes extends RecyclerView.Adapter<ListarAcompañante
         public TextView txt_nombre1,txt_nombre2, txt_apellido1, txt_apellido2, txt_direccion, txt_telefono, txt_identificacion, txt_email ,txt_numero_huesped;
         public static TextView txt_nombre1_search,txt_nombre2_search, txt_apellido1_search, txt_apellido2_search, txt_direccion_search, txt_telefono_search, txt_identificacion_search, txt_email_search;
 
-        private Button btnPreCheckin, btnChat;
-        private CardView cardreserva;
+
         private Context context;
         private int posicion = 0;
         private List<Acompañantes> acompañantes = new ArrayList<>();
@@ -55,7 +54,6 @@ public class ListarAcompañantes extends RecyclerView.Adapter<ListarAcompañante
             txt_identificacion = (TextView) itemView.findViewById(R.id.txt_detalle_reserva_acompañante_identificacion);
             txt_email = (TextView) itemView.findViewById(R.id.txt_detalle_reserva_acompañante_email);
             txt_numero_huesped = (TextView) itemView.findViewById(R.id.txt_detalle_reserva_acompañante_numero);
-
             txt_nombre1_search = txt_nombre1;
         }
 
@@ -171,9 +169,10 @@ public class ListarAcompañantes extends RecyclerView.Adapter<ListarAcompañante
 
                 @Override
                 public void afterTextChanged(Editable s) {
+                    boolean yaExiste = false;
                     if (s.toString().length() >= 7){
-                        ServiceSearchTercero servicio = new ServiceSearchTercero(context,activity, s.toString(), posicion);
-                        servicio.execute();
+                            ServiceSearchTercero servicio = new ServiceSearchTercero(context, activity, s.toString(), acompañantes.get(position).getPosicion_in_lista(), id_habitacion);
+                            servicio.execute();
                     }
                     acompañantes.get(position).setIdentificacion(s.toString());
                 }
@@ -194,9 +193,6 @@ public class ListarAcompañantes extends RecyclerView.Adapter<ListarAcompañante
                     acompañantes.get(position).setEmail(s.toString());
                 }
             });
-
-
-
         }
 
 
@@ -214,13 +210,18 @@ public class ListarAcompañantes extends RecyclerView.Adapter<ListarAcompañante
     public List<Acompañantes> lista_acompañantes;
     public Context contexto;
     public int posi;
+
+    public static String id_habitacion;
+    public static String id_reserva;
     public static Activity activity = new Activity();
 
 
-    public ListarAcompañantes(List<Acompañantes> listaacompañantes, Context contexto, Activity activity) {
+    public ListarAcompañantes(List<Acompañantes> listaacompañantes, Context contexto, Activity activity, String id_habitacion, String id_reserva) {
         this.lista_acompañantes = listaacompañantes;
         this.contexto = contexto;
         this.activity = activity;
+        this.id_habitacion = id_habitacion;
+        this.id_reserva = id_reserva;
     }
 
     @NonNull
@@ -245,7 +246,6 @@ public class ListarAcompañantes extends RecyclerView.Adapter<ListarAcompañante
         holder.txt_direccion.setText(acompañante.getDireccion());
         holder.txt_telefono.setText(acompañante.getTelefono_movil());
         holder.setOnClickListener(lista_acompañantes, position);
-        list.add(holder.txt_nombre1.getText().toString());
         viewHolder = holder;
     }
 

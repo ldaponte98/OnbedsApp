@@ -118,6 +118,12 @@ public class Reserva {
         }
     }
 
+    public int GetPosicionAcompañante(String identificacion, String id_habitacion){
+            for (int i = 0; i<= this.lista_acompañantes.size() - 1; i++) {
+                if (lista_acompañantes.get(i).getIdentificacion().equals(identificacion) && lista_acompañantes.get(i).getId_habitacion().equals(id_habitacion)) return i;
+            }
+            return -1;
+    }
 
 
     //convertiremos la fecha a oct 20 del 2019

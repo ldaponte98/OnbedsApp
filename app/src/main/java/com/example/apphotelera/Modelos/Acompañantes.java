@@ -1,12 +1,6 @@
 package com.example.apphotelera.Modelos;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-
-import com.example.apphotelera.Datos.BaseDeDatos;
-import com.example.apphotelera.Herramientas.Config;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +18,7 @@ public class Acompañantes {
     private String email;
     private String id_reserva;
     private String id_habitacion;
+    private int posicion_in_lista;
     public static List<Acompañantes> BD_Acompañantes = new ArrayList<Acompañantes>();
 
     private Context context;
@@ -33,6 +28,7 @@ public class Acompañantes {
 
     public boolean Save(){
         try {
+            setPosicion_in_lista(BD_Acompañantes.size());
             BD_Acompañantes.add(this);
             return true;
         }catch (Exception excepcion) {
@@ -172,5 +168,13 @@ public class Acompañantes {
 
     public void setContext(Context context) {
         this.context = context;
+    }
+
+    public int getPosicion_in_lista() {
+        return posicion_in_lista;
+    }
+
+    public void setPosicion_in_lista(int posicion_in_lista) {
+        this.posicion_in_lista = posicion_in_lista;
     }
 }
