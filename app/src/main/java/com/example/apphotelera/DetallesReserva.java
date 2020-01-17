@@ -1,8 +1,10 @@
 package com.example.apphotelera;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -11,6 +13,7 @@ import android.os.Bundle;
 import com.example.apphotelera.GeneradorDeListas.ListarAcompañantes;
 import com.example.apphotelera.Herramientas.Tools;
 import com.example.apphotelera.Modelos.Acompañantes;
+import com.example.apphotelera.Modelos.Habitacion;
 import com.example.apphotelera.Modelos.Hotel;
 import com.example.apphotelera.Modelos.Reserva;
 import com.example.apphotelera.Modelos.Usuario;
@@ -27,6 +30,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -58,6 +62,25 @@ public class DetallesReserva extends AppCompatActivity {
         List<Acompañantes> acomp = new Acompañantes(this).All();
 
         spinner_habitaciones = (Spinner) findViewById(R.id.spinner_habitaciones);
+
+        final Activity my_activity = this;
+
+        llenarSpinnerHabitaciones();
+
+        spinner_habitaciones.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                ListarAcompañantes(getApplicationContext(), my_activity, reserva.getLista_habitaciones().get(position).getId_habitacion());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
+
+
 
         final CardView card_info_reserva, card_info_titular, card_info_acompañantes;
         card_info_reserva = (CardView) findViewById(R.id.card_info_reserva);
@@ -98,8 +121,8 @@ public class DetallesReserva extends AppCompatActivity {
         EstablecerInformacionDeHotel();
         EstablecerDetallesDeReserva();
         EstablecerInfoPropietario();
-        ListarAcompañantes(this, this);
-        llenarSpinnerHabitaciones();
+        ListarAcompañantes(this, this, reserva.getLista_habitaciones().get(0).getId_habitacion());
+
 
     }
 
@@ -150,25 +173,19 @@ public class DetallesReserva extends AppCompatActivity {
         txt_fecha_inicio = (TextView) findViewById(R.id.txt_detalle_reserva_fecha_inicio);
         txt_fecha_fin = (TextView) findViewById(R.id.txt_detalle_reserva_fecha_fin);
         txt_clase = (TextView) findViewById(R.id.txt_detalle_reserva_clase);
-        txt_tipo_habitacion = (TextView) findViewById(R.id.txt_detalle_reserva_tipo);
         txt_num_habitacion = (TextView) findViewById(R.id.txt_detalle_reserva_num_habitacion);
-        txt_cant_adulto = (TextView) findViewById(R.id.txt_detalle_reserva_cant_adulto);
-        txt_cant_niño = (TextView) findViewById(R.id.txt_detalle_reserva_cant_niños);
+
         txt_estado.setText(reserva.getEstado());
         txt_numero.setText(reserva.getNumero_reserva());
         txt_fecha_inicio.setText(new Tools().FechaFormato4(reserva.getFecha_inicio()));
         txt_fecha_fin.setText(new Tools().FechaFormato4(reserva.getFecha_fin()));
         txt_clase.setText(reserva.getClase());
         txt_num_habitacion.setText(reserva.getNumero_habitacion());
-        txt_tipo_habitacion.setText(reserva.getTipo());
-        txt_cant_adulto.setText(reserva.getCant_adulto().toString());
-        txt_cant_niño.setText(reserva.getCant_niño().toString());
+
     }
 
     public void EstablecerInfoPropietario(){
         Usuario titular = new Usuario().Find(this);
-
-
         txt_nombre1.setText(titular.getNombre1());
         txt_nombre2.setText(titular.getNombre2());
         txt_apellido1.setText(titular.getApellido1());
@@ -180,29 +197,56 @@ public class DetallesReserva extends AppCompatActivity {
 
     }
 
-    public static void ListarAcompañantes(Context context, Activity activity){
+    public static void ListarAcompañantes(Context context, Activity activity, String id_habitacion){
+
+
         int total_en_lista;
+
         if (reserva.getLista_acompañantes() == null){
             reserva.setLista_acompañantes(new ArrayList<Acompañantes>());
             total_en_lista = 0;
         }else{
-            total_en_lista = reserva.getLista_acompañantes().size();
+            total_en_lista = reserva.FindAcompañantesByHabitacion(id_habitacion).size();
         }
-        int total_huesped = reserva.getCant_adulto() + reserva.getCant_niño();
+
+        Habitacion habitacion = new Habitacion(context).FindByPK(id_habitacion);
+        int total_huesped =  habitacion.getCant_adultos() + habitacion.getCant_niños();
         if (total_huesped > total_en_lista){
             int faltantes =  total_huesped - total_en_lista;
             for (int i = 1; i<= faltantes; i++){
-                reserva.getLista_acompañantes().add(new Acompañantes(context));
+                Acompañantes acompañante = new Acompañantes(context);
+                acompañante.setId_habitacion(id_habitacion);
+                reserva.getLista_acompañantes().add(acompañante);
             }
         }
         ListarAcompañantes AdaptadorDeListas_ListarAcompañantes;
         ProgressDialog progressDialog;
 
-        AdaptadorDeListas_ListarAcompañantes = new ListarAcompañantes(reserva.getLista_acompañantes(), context, activity);
+        AdaptadorDeListas_ListarAcompañantes = new ListarAcompañantes(reserva.FindAcompañantesByHabitacion(id_habitacion), context, activity);
         Recycler_ListarAcompañantes.setAdapter(AdaptadorDeListas_ListarAcompañantes);
+
+
+
+    }
+    public void PreguntarActualizacionDeReserva(View view){
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("¿Esta seguro que desea actualizar la informacion de esta reserva?")
+                .setPositiveButton("Actualizar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        ActualizarDatosReserva();
+                    }
+                })
+                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        // Create the AlertDialog object and return it
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
-    public void ActualizarDatosReserva(View view){
+    public void ActualizarDatosReserva(){
         Usuario usuario = new Usuario().Find(this);
         usuario.setIdentificacion(txt_identificacion.getText().toString());
         usuario.setEmail(txt_email.getText().toString());
@@ -218,9 +262,10 @@ public class DetallesReserva extends AppCompatActivity {
 
     public void llenarSpinnerHabitaciones(){
         List<String> habitaciones = new ArrayList<>();
-        habitaciones.add("Habitacion 1");
-        habitaciones.add("Habitacion 2");
-        ArrayAdapter<CharSequence> adapter = new ArrayAdapter(this,R.layout.support_simple_spinner_dropdown_item, habitaciones);
+        for (Habitacion habitacion : reserva.getLista_habitaciones()){
+            habitaciones.add("Habitacion "+ habitacion.getNumero());
+        }
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter(this,R.layout.my_spinner_desing, habitaciones);
         spinner_habitaciones.setAdapter(adapter);
     }
 

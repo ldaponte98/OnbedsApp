@@ -9,6 +9,8 @@ import com.example.apphotelera.Datos.BaseDeDatos;
 import com.example.apphotelera.Herramientas.Config;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Usuario {
     private String id_tercero;
@@ -23,6 +25,7 @@ public class Usuario {
     private String direccion;
     private String email;
     private String clave;
+    public static List<Usuario> BDUsuarios = new ArrayList<Usuario>();
 
     public Usuario() {
     }

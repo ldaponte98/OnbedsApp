@@ -23,6 +23,8 @@ public class Acompañantes {
     private String direccion;
     private String email;
     private String id_reserva;
+    private String id_habitacion;
+    public static List<Acompañantes> BD_Acompañantes = new ArrayList<Acompañantes>();
 
     private Context context;
 
@@ -31,176 +33,38 @@ public class Acompañantes {
 
     public boolean Save(){
         try {
-            BaseDeDatos bd = new BaseDeDatos(context, new Config().NameBD, null, 1);
-            SQLiteDatabase basededatos = bd.getWritableDatabase();
-            ContentValues registro = new ContentValues();
-            registro.put("id_tercero", id_tercero);
-            registro.put("identificacion", identificacion);
-            registro.put("nombre1", nombre1);
-            registro.put("nombre2",nombre2);
-            registro.put("apellido1",apellido1);
-            registro.put("apellido2",apellido2);
-            registro.put("telefono_movil", telefono_movil);
-            registro.put("direccion",direccion);
-            registro.put("email",email);
-            registro.put("id_reserva",id_reserva);
-            basededatos.insert("acompañantes", null, registro);
-            basededatos.close();
-
+            BD_Acompañantes.add(this);
             return true;
         }catch (Exception excepcion) {
-            String mensaje = excepcion.getMessage();
             return false;
         }
     }
 
     public Acompañantes FindByPK(String id){
-        try {
-            BaseDeDatos bd = new BaseDeDatos(context, new Config().NameBD, null, 1);
-            SQLiteDatabase basededatos = bd.getWritableDatabase();
-            Cursor cursor = basededatos.rawQuery("select * from acompañantes where id_tercero = "+id, null);
-
-            if (cursor.moveToFirst()) {
-                do {
-                    Acompañantes acompañante = new Acompañantes();
-                    acompañante.setId_acompañante(Integer.parseInt(cursor.getString(0)));
-                    acompañante.setId_tercero(cursor.getString(1));
-                    acompañante.setIdentificacion(cursor.getString(2));
-                    acompañante.setNombre1(cursor.getString(3));
-                    acompañante.setNombre2(cursor.getString(4));
-
-                    acompañante.setApellido1(cursor.getString(5));
-                    acompañante.setApellido2(cursor.getString(6));
-                    acompañante.setTelefono_movil(cursor.getString(7));
-                    acompañante.setDireccion(cursor.getString(8));
-                    acompañante.setEmail(cursor.getString(9));
-                    acompañante.setId_reserva(cursor.getString(10));
-
-                    basededatos.close();
-                    return acompañante;
-                } while (cursor.moveToNext());
-
-            }
-            return null;
-        }catch (Exception excepcion) {
-            String mensaje = excepcion.getMessage();
-            return null;
+        for (Acompañantes acompañante: BD_Acompañantes) {
+            if (acompañante.getId_acompañante().equals(id)) return acompañante;
         }
+        return null;
     }
 
-    public List<Acompañantes> FindBy(String columna, String value){
-        List<Acompañantes> lista = new ArrayList<>();
-
-        try {
-            BaseDeDatos bd = new BaseDeDatos(context, new Config().NameBD, null, 1);
-            SQLiteDatabase basededatos = bd.getWritableDatabase();
-            Cursor cursor = basededatos.rawQuery("select * from acompañantes where "+columna+" = '"+value+"'", null);
-
-            if (cursor.moveToFirst()) {
-                do {
-                    Acompañantes acompañante = new Acompañantes();
-                    acompañante.setId_acompañante(Integer.parseInt(cursor.getString(0)));
-                    acompañante.setId_tercero(cursor.getString(1));
-                    acompañante.setIdentificacion(cursor.getString(2));
-                    acompañante.setNombre1(cursor.getString(3));
-                    acompañante.setNombre2(cursor.getString(4));
-
-                    acompañante.setApellido1(cursor.getString(5));
-                    acompañante.setApellido2(cursor.getString(6));
-                    acompañante.setTelefono_movil(cursor.getString(7));
-                    acompañante.setDireccion(cursor.getString(8));
-                    acompañante.setEmail(cursor.getString(9));
-                    acompañante.setId_reserva(cursor.getString(10));
-                    lista.add(acompañante);
-
-                    basededatos.close();
-                } while (cursor.moveToNext());
-                    return lista;
-            }
-            return null;
-        }catch (Exception excepcion) {
-            String mensaje = excepcion.getMessage();
-            return null;
-        }
-    }
 
     public List<Acompañantes> FindByReserva(String id_reserva){
-        List<Acompañantes> lista = new ArrayList<>();
-
-        try {
-            BaseDeDatos bd = new BaseDeDatos(context, new Config().NameBD, null, 1);
-            SQLiteDatabase basededatos = bd.getWritableDatabase();
-            Cursor cursor = basededatos.rawQuery("select * from acompañantes where id_reserva = '"+id_reserva+"'", null);
-
-            if (cursor.moveToFirst()) {
-                do {
-                    Acompañantes acompañante = new Acompañantes();
-                    acompañante.setId_acompañante(Integer.parseInt(cursor.getString(0)));
-                    acompañante.setId_tercero(cursor.getString(1));
-                    acompañante.setIdentificacion(cursor.getString(2));
-                    acompañante.setNombre1(cursor.getString(3));
-                    acompañante.setNombre2(cursor.getString(4));
-
-                    acompañante.setApellido1(cursor.getString(5));
-                    acompañante.setApellido2(cursor.getString(6));
-                    acompañante.setTelefono_movil(cursor.getString(7));
-                    acompañante.setDireccion(cursor.getString(8));
-                    acompañante.setEmail(cursor.getString(9));
-                    acompañante.setId_reserva(cursor.getString(10));
-                    lista.add(acompañante);
-
-                    basededatos.close();
-                } while (cursor.moveToNext());
-                return lista;
-            }
-            return null;
-        }catch (Exception excepcion) {
-            String mensaje = excepcion.getMessage();
-            return null;
+        List<Acompañantes> lista =new ArrayList<Acompañantes>();
+        for (Acompañantes acompañante: BD_Acompañantes) {
+            if (acompañante.getId_reserva().equals(id_reserva)) lista.add(acompañante);
         }
+        return lista;
     }
 
 
     public List<Acompañantes> All(){
-        List<Acompañantes> lista = new ArrayList<>();
-
-        try {
-            BaseDeDatos bd = new BaseDeDatos(context, new Config().NameBD, null, 1);
-            SQLiteDatabase basededatos = bd.getWritableDatabase();
-            Cursor cursor = basededatos.rawQuery("select * from acompañantes", null);
-
-            if (cursor.moveToFirst()) {
-                do {
-                    Acompañantes acompañante = new Acompañantes();
-                    acompañante.setId_acompañante(Integer.parseInt(cursor.getString(0)));
-                    acompañante.setId_tercero(cursor.getString(1));
-                    acompañante.setIdentificacion(cursor.getString(2));
-                    acompañante.setNombre1(cursor.getString(3));
-                    acompañante.setNombre2(cursor.getString(4));
-
-                    acompañante.setApellido1(cursor.getString(5));
-                    acompañante.setApellido2(cursor.getString(6));
-                    acompañante.setTelefono_movil(cursor.getString(7));
-                    acompañante.setDireccion(cursor.getString(8));
-                    acompañante.setEmail(cursor.getString(9));
-                    acompañante.setId_reserva(cursor.getString(10));
-                    lista.add(acompañante);
-
-                    basededatos.close();
-                } while (cursor.moveToNext());
-                return lista;
-            }
-            return null;
-        }catch (Exception excepcion) {
-            String mensaje = excepcion.getMessage();
-            return null;
-        }
+        return BD_Acompañantes;
     }
 
 
 
     public Acompañantes(Context context) {
-        this.context = context;
+        this.setContext(context);
     }
 
 
@@ -292,5 +156,21 @@ public class Acompañantes {
 
     public void setId_acompañante(Integer id_acompañante) {
         this.id_acompañante = id_acompañante;
+    }
+
+    public String getId_habitacion() {
+        return id_habitacion;
+    }
+
+    public void setId_habitacion(String id_habitacion) {
+        this.id_habitacion = id_habitacion;
+    }
+
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
     }
 }

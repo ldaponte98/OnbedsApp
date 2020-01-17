@@ -165,7 +165,7 @@ public class ServiceSearchTercero extends AsyncTask<Void, Void, String> {
                         DetallesReserva.reserva.getLista_acompañantes().get(posicion).setApellido2(acompañante_search.getApellido2());
                         DetallesReserva.reserva.getLista_acompañantes().get(posicion).setDireccion(acompañante_search.getDireccion());
                         DetallesReserva.reserva.getLista_acompañantes().get(posicion).setTelefono_movil(acompañante_search.getTelefono_movil());
-                        DetallesReserva.ListarAcompañantes(httpContext, activity);
+                        DetallesReserva.ListarAcompañantes(httpContext, activity, DetallesReserva.reserva.getLista_acompañantes().get(posicion).getId_habitacion());
                     }
                 });
 

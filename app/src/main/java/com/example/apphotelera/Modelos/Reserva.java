@@ -28,10 +28,10 @@ public class Reserva {
     private String tipo;
     private String numero_reserva;
     private String numero_habitacion;
-    private Integer cant_adulto;
-    private Integer cant_niño;
-    private List<Acompañantes> Lista_acompañantes = new ArrayList<>();
+    private List<Acompañantes> lista_acompañantes = new ArrayList<Acompañantes>();
+    private List<Habitacion> lista_habitaciones = new ArrayList<Habitacion>();
     private Context context;
+    public static List<Reserva> BD_Reservas = new ArrayList<Reserva>();
     public Reserva(){
 
     }
@@ -40,162 +40,17 @@ public class Reserva {
     }
 
     public Reserva FindByPK(String id){
-
-        try {
-            BaseDeDatos bd = new BaseDeDatos(getContext(), new Config().NameBD, null, 1);
-            SQLiteDatabase basededatos = bd.getWritableDatabase();
-            Cursor cursor = basededatos.rawQuery("select * from reservas where id_reserva =" + id, null);
-            SimpleDateFormat formatearfecha = new SimpleDateFormat("yyyy-MM-dd");
-
-            if (cursor.moveToFirst()) {
-                do {
-                    Reserva reserva = new Reserva();
-                    reserva.setId_reserva(cursor.getString(0));
-                    reserva.setClase(cursor.getString(1));
-                    reserva.setEstado(cursor.getString(2));
-                    String f = cursor.getString(3);
-
-                    reserva.setFecha_check_in(cursor.getString(3));
-                    reserva.setFecha_check_out(cursor.getString(4));
-                    reserva.setFecha_inicio(cursor.getString(5));
-                    reserva.setFecha_fin(cursor.getString(6));
-
-
-                    reserva.setHuesped(cursor.getString(7));
-                    reserva.setHuesped_identidad(cursor.getString(8));
-                    reserva.setObservaciones(cursor.getString(9));
-                    reserva.setTipo(cursor.getString(10));
-                    reserva.setNumero_reserva(cursor.getString(11));
-                    reserva.setNumero_habitacion(cursor.getString(12));
-
-                    Hotel hotel = new Hotel();
-                    hotel.setId(cursor.getString(13));
-                    hotel.setNombre(cursor.getString(14));
-                    hotel.setDireccion(cursor.getString(15));
-                    hotel.setTelefono(cursor.getString(16));
-                    hotel.setEmail(cursor.getString(17));
-                    hotel.setPais(cursor.getString(18));
-                    hotel.setCiudad(cursor.getString(19));
-                    reserva.setHotel(hotel);
-
-                    reserva.setCant_adulto(Integer.parseInt(cursor.getString(20)));
-                    reserva.setCant_niño(Integer.parseInt(cursor.getString(21)));
-
-
-                    reserva.setLista_acompañantes(new Acompañantes(context).FindByReserva(reserva.getId_reserva()));
-
-                    basededatos.close();
-                    return reserva;
-                } while (cursor.moveToNext());
-
+            for (Reserva reserva: BD_Reservas) {
+                if (reserva.getId_reserva().equals(id)) return reserva;
             }
             return null;
-        }catch (Exception exc){
-            System.out.println("Excepcion en buscar la reserva : "+ exc.getMessage());
-            return null;
-        }
     }
 
-    public Reserva FindBy(String columna, String buscador){
 
-        try {
-            BaseDeDatos bd = new BaseDeDatos(getContext(), new Config().NameBD, null, 1);
-            SQLiteDatabase basededatos = bd.getWritableDatabase();
-            Cursor cursor = basededatos.rawQuery("select * from reservas where " + columna + "='" + buscador +"'", null);
-            SimpleDateFormat formatearfecha = new SimpleDateFormat("yyyy-MM-dd");
-
-            if (cursor.moveToFirst()) {
-                do {
-                    Reserva reserva = new Reserva();
-                    reserva.setId_reserva(cursor.getString(0));
-                    reserva.setClase(cursor.getString(1));
-                    reserva.setEstado(cursor.getString(2));
-
-                    reserva.setFecha_check_in(cursor.getString(3));
-                    reserva.setFecha_check_out(cursor.getString(4));
-                    reserva.setFecha_inicio(cursor.getString(5));
-                    reserva.setFecha_fin(cursor.getString(6));
-
-                    reserva.setHuesped(cursor.getString(7));
-                    reserva.setHuesped_identidad(cursor.getString(8));
-                    reserva.setObservaciones(cursor.getString(9));
-                    reserva.setTipo(cursor.getString(10));
-                    reserva.setNumero_reserva(cursor.getString(11));
-                    reserva.setNumero_habitacion(cursor.getString(12));
-
-                    Hotel hotel = new Hotel();
-                    hotel.setId(cursor.getString(13));
-                    hotel.setNombre(cursor.getString(14));
-                    hotel.setDireccion(cursor.getString(15));
-                    hotel.setTelefono(cursor.getString(16));
-                    hotel.setEmail(cursor.getString(17));
-                    hotel.setPais(cursor.getString(18));
-                    hotel.setCiudad(cursor.getString(19));
-
-                    reserva.setHotel(hotel);
-
-                    reserva.setCant_adulto(Integer.parseInt(cursor.getString(20)));
-                    reserva.setCant_niño(Integer.parseInt(cursor.getString(21)));
-                    reserva.setLista_acompañantes(new Acompañantes(context).FindByReserva(reserva.getId_reserva()));
-                    basededatos.close();
-                    return reserva;
-                } while (cursor.moveToNext());
-
-            }
-            return null;
-        }catch (Exception exc){
-            System.out.println("Excepcion en buscar la reserva : "+ exc.getMessage());
-            return null;
-        }
-    }
 
     public List<Reserva> FindAll(){
-        List<Reserva> lista = new ArrayList<>();
-
-        try {
-            BaseDeDatos bd = new BaseDeDatos(getContext(), new Config().NameBD, null, 1);
-            SQLiteDatabase basededatos = bd.getWritableDatabase();
-            Cursor cursor = basededatos.rawQuery("select * from reservas",null);
-            if (cursor.moveToFirst()) {
-                do {
-                    Reserva reserva = new Reserva();
-                    reserva.setId_reserva(cursor.getString(0));
-                    reserva.setClase(cursor.getString(1));
-                    reserva.setEstado(cursor.getString(2));
-                    String f = cursor.getString(3);
-
-                    reserva.setFecha_check_in(cursor.getString(3));
-                    reserva.setFecha_check_out(cursor.getString(4));
-                    reserva.setFecha_inicio(cursor.getString(5));
-                    reserva.setFecha_fin(cursor.getString(6));
-
-
-                    reserva.setHuesped(cursor.getString(7));
-                    reserva.setHuesped_identidad(cursor.getString(8));
-                    reserva.setObservaciones(cursor.getString(9));
-                    reserva.setTipo(cursor.getString(10));
-                    reserva.setNumero_reserva(cursor.getString(11));
-                    reserva.setNumero_habitacion(cursor.getString(12));
-
-                    Hotel hotel = new Hotel();
-                    hotel.setId(cursor.getString(13));
-                    hotel.setNombre(cursor.getString(14));
-                    hotel.setDireccion(cursor.getString(15));
-                    hotel.setTelefono(cursor.getString(16));
-                    hotel.setEmail(cursor.getString(17));
-                    hotel.setPais(cursor.getString(18));
-                    hotel.setCiudad(cursor.getString(19));
-
-                    reserva.setHotel(hotel);
-
-                    reserva.setCant_adulto(Integer.parseInt(cursor.getString(20)));
-                    reserva.setCant_niño(Integer.parseInt(cursor.getString(21)));
-                    reserva.setLista_acompañantes(new Acompañantes(context).FindByReserva(reserva.getId_reserva()));
-                    lista.add(reserva);
-                } while (cursor.moveToNext());
-                basededatos.close();
-            }
-            return lista;
+        try{
+            return BD_Reservas;
         } catch (Exception excepcion) {
             return null;
         }
@@ -203,39 +58,11 @@ public class Reserva {
 
 
     public boolean Save() {
-        SimpleDateFormat formatearFecha = new SimpleDateFormat("yyyy-MM-dd");
-        BaseDeDatos bd = new BaseDeDatos(getContext(), new Config().NameBD, null, 1);
-        SQLiteDatabase basededatos = bd.getWritableDatabase();
-        try {
-
-
-            ContentValues registro = new ContentValues();
-            registro.put("id_reserva", getId_reserva());
-            registro.put("clase", getClase());
-            registro.put("estado", getEstado());
-            registro.put("fecha_check_in", getFecha_check_in());
-            registro.put("fecha_check_out", getFecha_check_out());
-            registro.put("fecha_inicio", getFecha_inicio());
-            registro.put("fecha_fin", getFecha_fin());
-            registro.put("huesped", getHuesped());
-            registro.put("huesped_identidad", getHuesped_identidad());
-            registro.put("observaciones", getObservaciones());
-            registro.put("tipo", getTipo());
-            registro.put("id_hotel", getHotel().getId());
-            registro.put("hotel_nombre", getHotel().getNombre());
-            registro.put("hotel_direccion", getHotel().getDireccion());
-            registro.put("hotel_telefono", getHotel().getTelefono());
-            registro.put("hotel_email", getHotel().getEmail());
-            registro.put("hotel_pais", getHotel().getPais());
-            registro.put("hotel_ciudad", getHotel().getCiudad());
-            registro.put("numero_reserva", getNumero_reserva());
-            registro.put("numero_habitacion", getNumero_habitacion());
-            registro.put("cant_adulto", getCant_adulto());
-            registro.put("cant_niño", getCant_niño());
-
-            long n = basededatos.insert("reservas", null, registro);
-            basededatos.close();
+        try
+        {
+            BD_Reservas.add(this);
             SaveAcompañantes();
+            SaveHabitaciones();
             return true;
         } catch (Exception excepcion) {
             return false;
@@ -244,7 +71,7 @@ public class Reserva {
 
     public boolean SaveAcompañantes() {
         try {
-            for(Acompañantes acompañante: this.Lista_acompañantes){
+            for(Acompañantes acompañante: this.lista_acompañantes){
                 acompañante.Save();
             }
             return true;
@@ -252,6 +79,46 @@ public class Reserva {
             return false;
         }
         
+    }
+
+    public boolean SaveHabitaciones() {
+        try {
+            for(Habitacion habitacion: this.lista_habitaciones){
+                habitacion.Save();
+            }
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+
+    }
+
+    public Habitacion FindHabitacion(String id_habitacion){
+        try {
+            int total = 0;
+            for(Habitacion habitacion: this.lista_habitaciones){
+               if (habitacion.getId_habitacion().equals(id_habitacion)){
+                   return habitacion;
+               }
+            }
+            return null;
+        }catch (Exception e){
+            return null;
+        }
+    }
+
+    public List<Acompañantes> FindAcompañantesByHabitacion(String id_habitacion){
+        try {
+            List<Acompañantes> lista = new ArrayList<Acompañantes>();
+            for(Acompañantes acompañante: this.lista_acompañantes){
+                if (acompañante.getId_habitacion().equals(id_habitacion)){
+                    lista.add(acompañante);
+                }
+            }
+            return lista;
+        }catch (Exception e){
+            return null;
+        }
     }
 
 
@@ -382,26 +249,21 @@ public class Reserva {
 
 
     public List<Acompañantes> getLista_acompañantes() {
-        return Lista_acompañantes;
+        return lista_acompañantes;
     }
 
     public void setLista_acompañantes(List<Acompañantes> Lista_acompañantes) {
-        this.Lista_acompañantes = Lista_acompañantes;
+        this.lista_acompañantes = Lista_acompañantes;
     }
 
-    public Integer getCant_adulto() {
-        return cant_adulto;
+
+    public List<Habitacion> getLista_habitaciones() {
+        return lista_habitaciones;
     }
 
-    public void setCant_adulto(Integer cant_adulto) {
-        this.cant_adulto = cant_adulto;
+    public void setLista_habitaciones(List<Habitacion> lista_habitaciones) {
+        this.lista_habitaciones = lista_habitaciones;
     }
 
-    public Integer getCant_niño() {
-        return cant_niño;
-    }
 
-    public void setCant_niño(Integer cant_niño) {
-        this.cant_niño = cant_niño;
-    }
 }

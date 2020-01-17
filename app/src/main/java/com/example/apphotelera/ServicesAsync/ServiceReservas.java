@@ -12,6 +12,7 @@ import com.example.apphotelera.Datos.BaseDeDatos;
 import com.example.apphotelera.DetallesReserva;
 import com.example.apphotelera.Herramientas.Config;
 import com.example.apphotelera.Modelos.Acompañantes;
+import com.example.apphotelera.Modelos.Habitacion;
 import com.example.apphotelera.Modelos.Hotel;
 import com.example.apphotelera.Modelos.Reserva;
 import com.example.apphotelera.Modelos.Usuario;
@@ -33,6 +34,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -111,11 +113,12 @@ public class ServiceReservas extends AsyncTask<Void, Void, String> {
 
 
                 if (codeError.equals("200")) {
-                    BaseDeDatos bd = new BaseDeDatos(httpContext, new Config().NameBD, null, 1);
-                    SQLiteDatabase basededatos = bd.getWritableDatabase();
-                    basededatos.execSQL("delete from reservas");
-                    basededatos.execSQL("delete from acompañantes");
-                    basededatos.close();
+
+                    Reserva.BD_Reservas = new ArrayList<Reserva>();
+                    Acompañantes.BD_Acompañantes = new ArrayList<Acompañantes>();
+                    Habitacion.BD_Habitaciones = new ArrayList<Habitacion>();
+
+
                     reservas = jo.optJSONArray("reservas");
 
                     SimpleDateFormat formatearfecha = new SimpleDateFormat("yyyy-MM-dd");
@@ -136,8 +139,6 @@ public class ServiceReservas extends AsyncTask<Void, Void, String> {
                         reserva.setTipo(r.getString("tipo"));
                         reserva.setNumero_reserva(r.getString("numero_reserva"));
                         reserva.setNumero_habitacion(r.getString("numero_habitacion"));
-                        reserva.setCant_adulto(Integer.parseInt(r.getString("cant_adulto")));
-                        reserva.setCant_niño(Integer.parseInt(r.getString("cant_niño")));
 
                         Hotel hotel = new Hotel();
                         hotel.setId(r.getString("id_hotel"));
@@ -164,10 +165,21 @@ public class ServiceReservas extends AsyncTask<Void, Void, String> {
                             acompañante.setTelefono_movil(a.getString("telefono_movil"));
                             acompañante.setDireccion(a.getString("direccion"));
                             acompañante.setEmail(a.getString("email"));
-
+                            acompañante.setId_habitacion(a.getString("id_habitacion"));
                             reserva.getLista_acompañantes().add(acompañante);
                         }
 
+                        JSONArray habitaciones = r.getJSONArray("habitaciones");
+                        for (int j=0; j<habitaciones.length();j++){
+                            JSONObject h = habitaciones.getJSONObject(j);
+
+                            Habitacion habitacion = new Habitacion(httpContext);
+                            habitacion.setId_habitacion(h.getString("id_habitacion"));
+                            habitacion.setNumero(h.getString("numero"));
+                            habitacion.setCant_adultos(Integer.parseInt(h.getString("cant_adultos")));
+                            habitacion.setCant_niños(Integer.parseInt(h.getString("cant_niños")));
+                            reserva.getLista_habitaciones().add(habitacion);
+                        }
 
                         reserva.Save();
                     }

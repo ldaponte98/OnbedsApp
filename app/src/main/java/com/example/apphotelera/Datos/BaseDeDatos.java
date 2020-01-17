@@ -28,6 +28,8 @@ public class BaseDeDatos extends SQLiteOpenHelper {
                 "direccion text," +
                 "clave text," +
                 "email text)");
+
+        /* SE COMENTARON PARA MANEJAR LISTAS EN MEMORIA Y MEJORARAR EL RENDIMIENTO
         //TABLA RESERVAS
         db.execSQL("create table reservas(" +
                 "id_reserva text PRIMARY KEY," +
@@ -49,9 +51,7 @@ public class BaseDeDatos extends SQLiteOpenHelper {
                 "hotel_telefono text," +
                 "hotel_email text," +
                 "hotel_pais text," +
-                "hotel_ciudad text," +
-                "cant_adulto text," +
-                "cant_niño text)");
+                "hotel_ciudad text)");
 
         //TABLA ACOMPAÑANTES
         db.execSQL("create table acompañantes(" +
@@ -65,7 +65,19 @@ public class BaseDeDatos extends SQLiteOpenHelper {
                 "telefono_movil text," +
                 "direccion text," +
                 "email text," +
+                "id_reserva text," +
+                "id_habitacion text)");
+
+        //TABLA HABITACIONES
+        db.execSQL("create table acompañantes(" +
+                "id integer PRIMARY KEY AUTOINCREMENT,"+
+                "id_habitacion text,"+
+                "numero text," +
+                "cant_adultos text," +
+                "cant_niños text," +
                 "id_reserva text)");
+
+         */
     }
 
     @Override

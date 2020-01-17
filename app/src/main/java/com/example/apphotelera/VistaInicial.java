@@ -9,6 +9,7 @@ import com.example.apphotelera.GeneradorDeListas.ListarReservas;
 import com.example.apphotelera.Herramientas.Config;
 import com.example.apphotelera.Modelos.Reserva;
 import com.example.apphotelera.Modelos.Usuario;
+import com.example.apphotelera.ServicesAsync.ServiceReservas;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -68,6 +69,7 @@ public class VistaInicial extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
+        Object lista = Reserva_Controller.FindAll();
         Recycler_ListarReserva = (RecyclerView) findViewById(R.id.recyclerReservas);
         Recycler_ListarReserva.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         AdaptadorDeListas_ListarReserva = new ListarReservas(Reserva_Controller.FindAll(),this);
@@ -76,16 +78,8 @@ public class VistaInicial extends AppCompatActivity implements NavigationView.On
         //----------------------IMAGEN DEL USUARIO-----------------------
 
 
-
     }
-    public void ListarMisReservas(){
-        List<Reserva> listaDeReservas = Reserva_Controller.FindAll();
-        Reserva reserva = Reserva_Controller.FindByPK("13327");
-        reserva = Reserva_Controller.FindBy("clase", "Extragrande");
-        reserva = Reserva_Controller.FindBy("clase", "Pequeña");
 
-        int o;
-    }
 
 
     int contadoratras = 0;
@@ -127,7 +121,9 @@ public class VistaInicial extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.options) {
+        if (id == R.id.optiones_principal) {
+            ServiceReservas servicio = new ServiceReservas(this);
+            servicio.execute();
             return true;
         }
 

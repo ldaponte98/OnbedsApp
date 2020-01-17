@@ -189,18 +189,21 @@ public class ServiceSavePreCheckin extends AsyncTask<Void, Void, String> {
 
         JSONArray json_acompañantes = new JSONArray();
         for (Acompañantes acompañante: reserva.getLista_acompañantes()) {
-            JSONObject jsonacompañante = new JSONObject();
+            if (acompañante.getIdentificacion() != null && acompañante.getIdentificacion().length()>1) {
+                JSONObject jsonacompañante = new JSONObject();
+                jsonacompañante.put("id_tercero", acompañante.getId_tercero());
+                jsonacompañante.put("identificacion", acompañante.getIdentificacion());
+                jsonacompañante.put("email", acompañante.getEmail());
+                jsonacompañante.put("nombre1", acompañante.getNombre1());
+                jsonacompañante.put("nombre2", acompañante.getNombre2());
+                jsonacompañante.put("apellido1", acompañante.getApellido1());
+                jsonacompañante.put("apellido2", acompañante.getApellido2());
+                jsonacompañante.put("direccion", acompañante.getDireccion());
+                jsonacompañante.put("telefono_movil", acompañante.getTelefono_movil());
+                jsonacompañante.put("id_habitacion", acompañante.getId_habitacion());
 
-            jsonacompañante.put("identificacion",acompañante.getIdentificacion());
-            jsonacompañante.put("email",acompañante.getEmail());
-            jsonacompañante.put("nombre1",acompañante.getNombre1());
-            jsonacompañante.put("nombre2",acompañante.getNombre2());
-            jsonacompañante.put("apellido1",acompañante.getApellido1());
-            jsonacompañante.put("apellido2",acompañante.getApellido2());
-            jsonacompañante.put("direccion",acompañante.getDireccion());
-            jsonacompañante.put("telefono_movil",acompañante.getTelefono_movil());
-
-            json_acompañantes.put(jsonacompañante);
+                json_acompañantes.put(jsonacompañante);
+            }
         }
 
         jsonObject.put("id_reserva", reserva.getId_reserva());
