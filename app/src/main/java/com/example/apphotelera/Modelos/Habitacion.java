@@ -11,6 +11,8 @@ public class Habitacion {
     private int cant_adultos;
     private int cant_niños;
     private Context context;
+    private String clase;
+    private String tipo;
 
     public static List<Habitacion> BD_Habitaciones = new ArrayList<Habitacion>();
 
@@ -92,5 +94,21 @@ public class Habitacion {
 
     public void setContext(Context context) {
         this.context = context;
+    }
+
+    public String getClase() {
+        return clase;
+    }
+
+    public void setClase(String clase) {
+        this.clase = clase;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 }

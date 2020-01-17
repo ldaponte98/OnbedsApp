@@ -127,7 +127,6 @@ public class ServiceReservas extends AsyncTask<Void, Void, String> {
 
                         Reserva reserva = new Reserva(httpContext);
                         reserva.setId_reserva(r.getString("id_reserva"));
-                        reserva.setClase(r.getString("clase"));
                         reserva.setEstado(r.getString("estado"));
                         reserva.setFecha_check_in(r.getString("fecha_check_in"));
                         reserva.setFecha_check_out(r.getString("fecha_check_out"));
@@ -136,9 +135,7 @@ public class ServiceReservas extends AsyncTask<Void, Void, String> {
                         reserva.setHuesped(r.getString("huesped"));
                         reserva.setHuesped_identidad(r.getString("identificacion"));
                         reserva.setObservaciones(r.getString("observaciones"));
-                        reserva.setTipo(r.getString("tipo"));
                         reserva.setNumero_reserva(r.getString("numero_reserva"));
-                        reserva.setNumero_habitacion(r.getString("numero_habitacion"));
 
                         Hotel hotel = new Hotel();
                         hotel.setId(r.getString("id_hotel"));
@@ -172,12 +169,13 @@ public class ServiceReservas extends AsyncTask<Void, Void, String> {
                         JSONArray habitaciones = r.getJSONArray("habitaciones");
                         for (int j=0; j<habitaciones.length();j++){
                             JSONObject h = habitaciones.getJSONObject(j);
-
                             Habitacion habitacion = new Habitacion(httpContext);
                             habitacion.setId_habitacion(h.getString("id_habitacion"));
                             habitacion.setNumero(h.getString("numero"));
                             habitacion.setCant_adultos(Integer.parseInt(h.getString("cant_adultos")));
                             habitacion.setCant_niños(Integer.parseInt(h.getString("cant_niños")));
+                            habitacion.setTipo(h.getString("tipo"));
+                            habitacion.setClase(h.getString("clase"));
                             reserva.getLista_habitaciones().add(habitacion);
                         }
 

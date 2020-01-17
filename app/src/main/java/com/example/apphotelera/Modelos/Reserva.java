@@ -15,7 +15,6 @@ import java.util.List;
 
 public class Reserva {
     private String id_reserva;
-    private String clase;
     private String estado;
     private String fecha_check_in;
     private String fecha_check_out;
@@ -25,9 +24,7 @@ public class Reserva {
     private String huesped_identidad;
     private Hotel hotel;
     private String observaciones;
-    private String tipo;
     private String numero_reserva;
-    private String numero_habitacion;
     private List<Acompañantes> lista_acompañantes = new ArrayList<Acompañantes>();
     private List<Habitacion> lista_habitaciones = new ArrayList<Habitacion>();
     private Context context;
@@ -135,13 +132,6 @@ public class Reserva {
         this.id_reserva = id_reserva;
     }
 
-    public String getClase() {
-        return clase;
-    }
-
-    public void setClase(String clase) {
-        this.clase = clase;
-    }
 
     public String getEstado() {
         return estado;
@@ -215,13 +205,6 @@ public class Reserva {
         this.observaciones = observaciones;
     }
 
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
 
     public String getNumero_reserva() {
         return numero_reserva;
@@ -231,13 +214,6 @@ public class Reserva {
         this.numero_reserva = numero_reserva;
     }
 
-    public String getNumero_habitacion() {
-        return numero_habitacion;
-    }
-
-    public void setNumero_habitacion(String numero_habitacion) {
-        this.numero_habitacion = numero_habitacion;
-    }
 
     public Context getContext() {
         return context;

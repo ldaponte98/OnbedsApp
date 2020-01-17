@@ -13,6 +13,11 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".VerHabitaciones"
+            android:label="@string/title_activity_ver_habitaciones"
+            android:parentActivityName=".DetallesReserva"
+            android:theme="@style/AppTheme"/>
+        <activity
             android:name=".DetallesReserva"
             android:label="@string/title_activity_detalles_reserva"
             android:parentActivityName=".VistaInicial"

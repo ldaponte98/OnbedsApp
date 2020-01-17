@@ -29,4 +29,5 @@
         <item>Habitacion 1234</item>
         <item>Habitacion 9872</item>
     </string-array>
+    <string name="title_activity_ver_habitaciones">VerHabitaciones</string>
 </resources>

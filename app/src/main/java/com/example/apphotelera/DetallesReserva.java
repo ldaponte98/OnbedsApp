@@ -5,12 +5,15 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import com.example.apphotelera.GeneradorDeListas.ListarAcompañantes;
+import com.example.apphotelera.GeneradorDeListas.ListarHabitaciones;
+import com.example.apphotelera.GeneradorDeListas.ListarReservas;
 import com.example.apphotelera.Herramientas.Tools;
 import com.example.apphotelera.Modelos.Acompañantes;
 import com.example.apphotelera.Modelos.Habitacion;
@@ -28,6 +31,7 @@ import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -172,15 +176,30 @@ public class DetallesReserva extends AppCompatActivity {
         txt_numero = (TextView) findViewById(R.id.txt_detalle_reserva_numero);
         txt_fecha_inicio = (TextView) findViewById(R.id.txt_detalle_reserva_fecha_inicio);
         txt_fecha_fin = (TextView) findViewById(R.id.txt_detalle_reserva_fecha_fin);
-        txt_clase = (TextView) findViewById(R.id.txt_detalle_reserva_clase);
         txt_num_habitacion = (TextView) findViewById(R.id.txt_detalle_reserva_num_habitacion);
 
         txt_estado.setText(reserva.getEstado());
         txt_numero.setText(reserva.getNumero_reserva());
         txt_fecha_inicio.setText(new Tools().FechaFormato4(reserva.getFecha_inicio()));
         txt_fecha_fin.setText(new Tools().FechaFormato4(reserva.getFecha_fin()));
-        txt_clase.setText(reserva.getClase());
-        txt_num_habitacion.setText(reserva.getNumero_habitacion());
+        String habitaciones = "";
+        int cont = 1;
+        for (Habitacion habitacion:reserva.getLista_habitaciones()){
+            if (cont == reserva.getLista_habitaciones().size()){
+                habitaciones += habitacion.getNumero();
+            }else{
+                habitaciones += habitacion.getNumero()+" - ";
+            }
+            cont++;
+        }
+        txt_num_habitacion.setText(habitaciones);
+
+        txt_num_habitacion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mostrarInformacionHabitacion();
+            }
+        });
 
     }
 
@@ -267,6 +286,12 @@ public class DetallesReserva extends AppCompatActivity {
         }
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter(this,R.layout.my_spinner_desing, habitaciones);
         spinner_habitaciones.setAdapter(adapter);
+    }
+
+    public void mostrarInformacionHabitacion(){
+        Intent activity = new Intent(this, VerHabitaciones.class);
+        activity.putExtra("id_reserva", reserva.getId_reserva());
+        startActivity(activity);
     }
 
 
