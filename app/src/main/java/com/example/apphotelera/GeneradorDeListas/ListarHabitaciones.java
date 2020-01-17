@@ -87,7 +87,6 @@ public class ListarHabitaciones extends RecyclerView.Adapter<ListarHabitaciones.
 
     }
 
-
     @Override
     public int getItemCount() {
         return listaHabitaciones.size();
