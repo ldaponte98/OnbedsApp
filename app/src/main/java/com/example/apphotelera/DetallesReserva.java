@@ -213,7 +213,6 @@ public class DetallesReserva extends AppCompatActivity {
         txt_telefono.setText(titular.getTelefono_movil());
         txt_identificacion.setText(titular.getIdentificacion());
         txt_email.setText(titular.getEmail());
-
     }
 
     public static void ListarAcompañantes(Context context, Activity activity, String id_habitacion){

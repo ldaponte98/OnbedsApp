@@ -30,4 +30,5 @@
         <item>Habitacion 9872</item>
     </string-array>
     <string name="title_activity_ver_habitaciones">VerHabitaciones</string>
+    <string name="title_activity_chat">Chat</string>
 </resources>
